@@ -131,7 +131,7 @@ export function NominaDetalle() {
             {nomina.folio} — {sucursalMap.get(nomina.sucursalId) ?? nomina.sucursalId}
           </h2>
           <p style={{ color: 'var(--color-neutral-500)', fontSize: 'var(--font-size-sm)', margin: 0 }}>
-            Fecha: {new Date(nomina.fecha).toLocaleDateString('es-MX')} &middot; Total: {formatCurrency(totalMonto)} &middot; {nominaEntries.length} entrada{nominaEntries.length !== 1 ? 's' : ''}
+            {new Date(nomina.fechaInicio).toLocaleDateString('es-MX')} — {new Date(nomina.fechaFin).toLocaleDateString('es-MX')} &middot; Total: {formatCurrency(totalMonto)} &middot; {nominaEntries.length} entrada{nominaEntries.length !== 1 ? 's' : ''}
           </p>
         </div>
         <button className="btn-primary" onClick={openAdd}>

@@ -9,12 +9,14 @@ import './CapturaNomina.css';
 
 interface NominaFormData {
   sucursalId: string;
-  fecha: string;
+  fechaInicio: string;
+  fechaFin: string;
 }
 
 const EMPTY_FORM: NominaFormData = {
   sucursalId: '',
-  fecha: new Date().toISOString().split('T')[0],
+  fechaInicio: new Date().toISOString().split('T')[0],
+  fechaFin: new Date().toISOString().split('T')[0],
 };
 
 export function CapturaNomina() {
@@ -46,7 +48,8 @@ export function CapturaNomina() {
     if (!form.sucursalId) return;
     const id = addNomina({
       sucursalId: form.sucursalId,
-      fecha: form.fecha,
+      fechaInicio: form.fechaInicio,
+      fechaFin: form.fechaFin,
     });
     closeForm();
     navigate(`/captura-nomina/${id}`);
@@ -79,14 +82,15 @@ export function CapturaNomina() {
             <tr>
               <th>Folio</th>
               <th>Sucursal</th>
-              <th>Fecha</th>
+              <th>Fecha Inicio</th>
+              <th>Fecha Fin</th>
               <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
             {nominas.length === 0 ? (
               <tr>
-                <td colSpan={4} className="table-empty">No hay nominas registradas.</td>
+                <td colSpan={5} className="table-empty">No hay nominas registradas.</td>
               </tr>
             ) : (
               nominas.map((nomina) => (
@@ -98,7 +102,8 @@ export function CapturaNomina() {
                 >
                   <td><strong>{nomina.folio}</strong></td>
                   <td>{sucursalMap.get(nomina.sucursalId) ?? nomina.sucursalId}</td>
-                  <td>{new Date(nomina.fecha).toLocaleDateString('es-MX')}</td>
+                  <td>{new Date(nomina.fechaInicio).toLocaleDateString('es-MX')}</td>
+                  <td>{new Date(nomina.fechaFin).toLocaleDateString('es-MX')}</td>
                   <td>
                     <div className="data-table__actions">
                       <button
@@ -151,13 +156,25 @@ export function CapturaNomina() {
             </select>
           </div>
           <div className="form-group">
-            <label className="form-label" htmlFor="nom-fecha">Fecha</label>
+            <label className="form-label" htmlFor="nom-fecha-inicio">Fecha Inicio</label>
             <input
-              id="nom-fecha"
+              id="nom-fecha-inicio"
               className="form-input"
-              name="fecha"
+              name="fechaInicio"
               type="date"
-              value={form.fecha}
+              value={form.fechaInicio}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label className="form-label" htmlFor="nom-fecha-fin">Fecha Fin</label>
+            <input
+              id="nom-fecha-fin"
+              className="form-input"
+              name="fechaFin"
+              type="date"
+              value={form.fechaFin}
               onChange={handleChange}
               required
             />

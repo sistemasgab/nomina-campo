@@ -37,7 +37,8 @@ export interface Nomina {
   id: string;
   folio: string;
   sucursalId: string;
-  fecha: string;
+  fechaInicio: string;
+  fechaFin: string;
   createdAt: string;
 }
 

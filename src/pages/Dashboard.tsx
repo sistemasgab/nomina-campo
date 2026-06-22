@@ -147,7 +147,7 @@ export function Dashboard() {
                     </td>
                     <td>{formatCurrency(entry.monto)}</td>
                     <td><StatusBadge status={entry.status} /></td>
-                    <td>{nomina ? new Date(nomina.fecha).toLocaleDateString('es-MX') : '—'}</td>
+                    <td>{nomina ? `${new Date(nomina.fechaInicio).toLocaleDateString('es-MX')} — ${new Date(nomina.fechaFin).toLocaleDateString('es-MX')}` : '—'}</td>
                   </tr>
                 );
               })
