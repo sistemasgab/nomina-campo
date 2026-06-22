@@ -1,0 +1,20 @@
+/* Empleados uses shared page/table/form styles */
+
+.activo-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px var(--spacing-sm);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+}
+
+.activo-badge--true {
+  background-color: rgba(45, 106, 39, 0.12);
+  color: var(--color-success);
+}
+
+.activo-badge--false {
+  background-color: rgba(106, 108, 105, 0.12);
+  color: var(--color-neutral-500);
+}

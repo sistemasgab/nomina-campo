@@ -1,0 +1,44 @@
+/* CapturaNomina uses shared page/table/form styles */
+
+.nomina-filter-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-xl);
+  flex-wrap: wrap;
+}
+
+.nomina-filter-bar__label {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--color-neutral-700);
+  white-space: nowrap;
+}
+
+.employee-cell {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  color: var(--color-white);
+  flex-shrink: 0;
+}
+
+.avatar--0 { background-color: #2D6A27; }
+.avatar--1 { background-color: #4A7C44; }
+.avatar--2 { background-color: #D4A373; }
+.avatar--3 { background-color: #6A6C69; }
+.avatar--4 { background-color: #C62828; }
+.avatar--5 { background-color: #E6960A; }
+.avatar--6 { background-color: #1A6B8A; }
+.avatar--7 { background-color: #7B3F9E; }

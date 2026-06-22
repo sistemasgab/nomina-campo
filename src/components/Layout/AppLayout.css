@@ -1,0 +1,116 @@
+.app-layout {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.app-layout__main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ---- Header ---- */
+.app-layout__header {
+  height: 64px;
+  min-height: 64px;
+  background-color: var(--color-white);
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--spacing-xl);
+  gap: var(--spacing-md);
+}
+
+.app-layout__header-left {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.app-layout__page-title {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--color-neutral);
+  white-space: nowrap;
+}
+
+.app-layout__search {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.app-layout__search-icon {
+  position: absolute;
+  left: var(--spacing-sm);
+  color: var(--color-neutral-300);
+  pointer-events: none;
+}
+
+.app-layout__search-input {
+  padding: var(--spacing-xs) var(--spacing-sm) var(--spacing-xs) calc(var(--spacing-sm) + 20px);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  color: var(--color-neutral);
+  background-color: var(--color-neutral-100);
+  width: 240px;
+  outline: none;
+  transition: border-color 0.15s, background-color 0.15s;
+}
+
+.app-layout__search-input:focus {
+  border-color: var(--color-primary);
+  background-color: var(--color-white);
+}
+
+.app-layout__header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.app-layout__icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  border-radius: var(--radius-full);
+  color: var(--color-neutral-500);
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.app-layout__icon-btn:hover {
+  background-color: var(--color-neutral-100);
+  color: var(--color-neutral);
+}
+
+.app-layout__avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* ---- Content ---- */
+.app-layout__content {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--spacing-xl);
+  background-color: var(--color-background);
+}
