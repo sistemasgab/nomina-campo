@@ -1,4 +1,10 @@
+import { useEffect, useMemo, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
+import { useEmpresaStore } from '../../stores/useEmpresaStore';
+import { useSucursalStore } from '../../stores/useSucursalStore';
+import { usePuestoStore } from '../../stores/usePuestoStore';
+import type { FilterContextValue } from '../../context/FilterContext';
+import { FilterBar, type FilterDef } from './FilterBar';
 import { Sidebar } from './Sidebar';
 import './AppLayout.css';
 
@@ -11,13 +17,8 @@ const ROUTE_TITLES: Record<string, string> = {
   '/captura-nomina': 'Captura de Nómina',
 };
 
-function IconSearch() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="11" cy="11" r="8" />
-      <line x1="21" y1="21" x2="16.65" y2="16.65" />
-    </svg>
-  );
+function getPageTitle(pathname: string): string {
+  return ROUTE_TITLES[pathname] ?? (/^\/captura-nomina\/.+/.test(pathname) ? 'Detalle de Nómina' : 'AgroPay Manager');
 }
 
 function IconBell() {
@@ -39,27 +40,113 @@ function IconHelp() {
   );
 }
 
+function useFilterDefs(pathname: string): FilterDef[] {
+  const { empresas } = useEmpresaStore();
+  const { sucursales } = useSucursalStore();
+  const { puestos } = usePuestoStore();
+
+  return useMemo(() => {
+    switch (pathname) {
+      case '/sucursales':
+        return [{
+          id: 'empresaId',
+          label: 'Empresa',
+          options: [
+            { value: '', label: 'Todas' },
+            ...empresas.map((e) => ({ value: e.id, label: e.nombre })),
+          ],
+        }];
+      case '/empleados':
+        return [
+          {
+            id: 'estado',
+            label: 'Estado',
+            options: [
+              { value: '', label: 'Todos' },
+              { value: 'activo', label: 'Activo' },
+              { value: 'inactivo', label: 'Inactivo' },
+            ],
+          },
+          {
+            id: 'sucursalId',
+            label: 'Sucursal',
+            options: [
+              { value: '', label: 'Todas' },
+              ...sucursales.map((s) => ({ value: s.id, label: s.nombre })),
+            ],
+          },
+          {
+            id: 'puestoId',
+            label: 'Puesto',
+            options: [
+              { value: '', label: 'Todos' },
+              ...puestos.map((p) => ({ value: p.id, label: p.nombre })),
+            ],
+          },
+        ];
+      case '/captura-nomina':
+        return [{
+          id: 'sucursalId',
+          label: 'Sucursal',
+          options: [
+            { value: '', label: 'Todas' },
+            ...sucursales.map((s) => ({ value: s.id, label: s.nombre })),
+          ],
+        }];
+      default:
+        if (/^\/captura-nomina\/.+/.test(pathname)) {
+          return [{
+            id: 'status',
+            label: 'Estatus',
+            options: [
+              { value: '', label: 'Todos' },
+              { value: 'pending', label: 'Pendiente' },
+              { value: 'paid', label: 'Pagado' },
+              { value: 'overdue', label: 'Vencido' },
+            ],
+          }];
+        }
+        return [];
+    }
+  }, [pathname, empresas, sucursales, puestos]);
+}
+
 export function AppLayout() {
   const location = useLocation();
-  const pageTitle = ROUTE_TITLES[location.pathname] ?? 'AgroPay Manager';
+  const pageTitle = getPageTitle(location.pathname);
+  const filterDefs = useFilterDefs(location.pathname);
+
+  const [search, setSearch] = useState('');
+  const [filters, setFilters] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    setSearch('');
+    setFilters({});
+  }, [location.pathname]);
+
+  function setFilter(id: string, value: string) {
+    setFilters((prev) => ({ ...prev, [id]: value }));
+  }
+
+  function clearFilters() {
+    setSearch('');
+    setFilters({});
+  }
+
+  const outletContext: FilterContextValue = {
+    search,
+    setSearch,
+    filters,
+    setFilter,
+    clearFilters,
+  };
 
   return (
     <div className="app-layout">
       <Sidebar />
       <div className="app-layout__main">
         <header className="app-layout__header">
-          <div className="app-layout__header-left">
-            <h1 className="app-layout__page-title">{pageTitle}</h1>
-            <div className="app-layout__search">
-              <span className="app-layout__search-icon"><IconSearch /></span>
-              <input
-                className="app-layout__search-input"
-                type="search"
-                placeholder="Buscar..."
-                aria-label="Buscar"
-              />
-            </div>
-          </div>
+          <h1 className="app-layout__page-title">{pageTitle}</h1>
 
           <div className="app-layout__header-actions">
             <button className="app-layout__icon-btn" aria-label="Notificaciones">
@@ -74,8 +161,16 @@ export function AppLayout() {
           </div>
         </header>
 
+        <FilterBar
+          search={search}
+          onSearchChange={setSearch}
+          filters={filters}
+          onFilterChange={setFilter}
+          filterDefs={filterDefs}
+        />
+
         <main className="app-layout__content">
-          <Outlet />
+          <Outlet context={outletContext} />
         </main>
       </div>
     </div>

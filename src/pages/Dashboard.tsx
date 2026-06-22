@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useEmpleadoStore } from '../stores/useEmpleadoStore';
 import { useSucursalStore } from '../stores/useSucursalStore';
 import { useNominaStore } from '../stores/useNominaStore';
+import { usePageFilters } from '../context/FilterContext';
 import { StatusBadge } from '../components/ui/StatusBadge';
 import './Dashboard.css';
 
@@ -43,11 +44,25 @@ export function Dashboard() {
   const { empleados } = useEmpleadoStore();
   const { sucursales } = useSucursalStore();
   const { nominas, entries } = useNominaStore();
+  const { search } = usePageFilters();
 
-  const recentEntries = entries.slice(0, 8);
   const empleadoMap = new Map(empleados.map((e) => [e.id, e]));
   const sucursalMap = new Map(sucursales.map((s) => [s.id, s]));
   const nominaMap = new Map(nominas.map((n) => [n.id, n]));
+
+  const recentEntries = entries.filter((entry) => {
+    if (!search.trim()) return true;
+    const q = search.toLowerCase();
+    const emp = empleadoMap.get(entry.empleadoId);
+    const nomina = nominaMap.get(entry.nominaId);
+    const suc = nomina ? sucursalMap.get(nomina.sucursalId) : undefined;
+    const fullName = emp ? `${emp.nombre} ${emp.apellido}` : '';
+    return (
+      fullName.toLowerCase().includes(q) ||
+      (suc?.nombre.toLowerCase().includes(q) ?? false) ||
+      (nomina?.folio.toLowerCase().includes(q) ?? false)
+    );
+  }).slice(0, 8);
 
   return (
     <div className="dashboard">

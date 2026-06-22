@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useEmpresaStore } from '../stores/useEmpresaStore';
+import { usePageFilters } from '../context/FilterContext';
 import { Modal } from '../components/ui/Modal';
 import type { Empresa } from '../stores/types';
 import './Empresas.css';
@@ -14,6 +15,17 @@ const EMPTY_FORM: EmpresaFormData = { nombre: '', rfc: '', direccion: '' };
 
 export function Empresas() {
   const { empresas, addEmpresa, updateEmpresa, deleteEmpresa } = useEmpresaStore();
+  const { search } = usePageFilters();
+
+  const filteredEmpresas = empresas.filter((empresa) => {
+    if (!search.trim()) return true;
+    const q = search.toLowerCase();
+    return (
+      empresa.nombre.toLowerCase().includes(q) ||
+      empresa.rfc.toLowerCase().includes(q) ||
+      empresa.direccion.toLowerCase().includes(q)
+    );
+  });
 
   const [showForm, setShowForm] = useState(false);
   const [editTarget, setEditTarget] = useState<Empresa | null>(null);
@@ -81,12 +93,14 @@ export function Empresas() {
             </tr>
           </thead>
           <tbody>
-            {empresas.length === 0 ? (
+            {filteredEmpresas.length === 0 ? (
               <tr>
-                <td colSpan={4} className="table-empty">No hay empresas registradas.</td>
+                <td colSpan={4} className="table-empty">
+                  {search.trim() ? 'No se encontraron empresas.' : 'No hay empresas registradas.'}
+                </td>
               </tr>
             ) : (
-              empresas.map((empresa) => (
+              filteredEmpresas.map((empresa) => (
                 <tr key={empresa.id}>
                   <td>{empresa.nombre}</td>
                   <td>{empresa.rfc}</td>

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useEmpleadoStore } from '../stores/useEmpleadoStore';
 import { usePuestoStore } from '../stores/usePuestoStore';
 import { useSucursalStore } from '../stores/useSucursalStore';
+import { usePageFilters } from '../context/FilterContext';
 import { Modal } from '../components/ui/Modal';
 import type { Empleado } from '../stores/types';
 import './Empresas.css';
@@ -29,6 +30,17 @@ export function Empleados() {
   const { empleados, addEmpleado, updateEmpleado, deleteEmpleado } = useEmpleadoStore();
   const { puestos } = usePuestoStore();
   const { sucursales } = useSucursalStore();
+  const { search, filters } = usePageFilters();
+
+  const filteredEmpleados = empleados.filter((emp) => {
+    if (filters.estado === 'activo' && !emp.activo) return false;
+    if (filters.estado === 'inactivo' && emp.activo) return false;
+    if (filters.sucursalId && emp.sucursalId !== filters.sucursalId) return false;
+    if (filters.puestoId && emp.puestoId !== filters.puestoId) return false;
+    if (!search.trim()) return true;
+    const q = search.toLowerCase();
+    return emp.nombre.toLowerCase().includes(q) || emp.apellido.toLowerCase().includes(q);
+  });
 
   const [showForm, setShowForm] = useState(false);
   const [editTarget, setEditTarget] = useState<Empleado | null>(null);
@@ -114,12 +126,16 @@ export function Empleados() {
             </tr>
           </thead>
           <tbody>
-            {empleados.length === 0 ? (
+            {filteredEmpleados.length === 0 ? (
               <tr>
-                <td colSpan={7} className="table-empty">No hay empleados registrados.</td>
+                <td colSpan={7} className="table-empty">
+                  {search.trim() || filters.estado || filters.sucursalId || filters.puestoId
+                    ? 'No se encontraron empleados.'
+                    : 'No hay empleados registrados.'}
+                </td>
               </tr>
             ) : (
-              empleados.map((emp) => (
+              filteredEmpleados.map((emp) => (
                 <tr key={emp.id}>
                   <td>{emp.nombre}</td>
                   <td>{emp.apellido}</td>

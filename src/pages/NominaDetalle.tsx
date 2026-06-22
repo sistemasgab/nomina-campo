@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useNominaStore } from '../stores/useNominaStore';
 import { useEmpleadoStore } from '../stores/useEmpleadoStore';
 import { useSucursalStore } from '../stores/useSucursalStore';
+import { usePageFilters } from '../context/FilterContext';
 import { Modal } from '../components/ui/Modal';
 import { StatusBadge } from '../components/ui/StatusBadge';
 import type { NominaEntry, NominaStatus } from '../stores/types';
@@ -47,10 +48,21 @@ export function NominaDetalle() {
   const [deleteTarget, setDeleteTarget] = useState<NominaEntry | null>(null);
   const [form, setForm] = useState<EntryFormData>(EMPTY_FORM);
 
+  const { search, filters } = usePageFilters();
+
   const nomina = nominas.find((n) => n.id === nominaId);
-  const nominaEntries = entries.filter((e) => e.nominaId === nominaId);
   const empleadoMap = new Map(empleados.map((e) => [e.id, e]));
   const sucursalMap = new Map(sucursales.map((s) => [s.id, s.nombre]));
+
+  const nominaEntries = entries.filter((e) => {
+    if (e.nominaId !== nominaId) return false;
+    if (filters.status && e.status !== filters.status) return false;
+    if (!search.trim()) return true;
+    const q = search.toLowerCase();
+    const emp = empleadoMap.get(e.empleadoId);
+    const fullName = emp ? `${emp.nombre} ${emp.apellido}` : '';
+    return fullName.toLowerCase().includes(q);
+  });
 
   if (!nomina) {
     return (
@@ -65,7 +77,9 @@ export function NominaDetalle() {
     );
   }
 
-  const totalMonto = nominaEntries.reduce((sum, e) => sum + e.monto, 0);
+  const allEntries = entries.filter((e) => e.nominaId === nominaId);
+  const totalMonto = allEntries.reduce((sum, e) => sum + e.monto, 0);
+  const hasActiveFilter = !!search.trim() || !!filters.status;
 
   function openAdd() {
     setEditTarget(null);
@@ -152,7 +166,9 @@ export function NominaDetalle() {
           <tbody>
             {nominaEntries.length === 0 ? (
               <tr>
-                <td colSpan={4} className="table-empty">No hay entradas en esta nomina.</td>
+                <td colSpan={4} className="table-empty">
+                  {hasActiveFilter ? 'No se encontraron entradas.' : 'No hay entradas en esta nomina.'}
+                </td>
               </tr>
             ) : (
               nominaEntries.map((entry) => {

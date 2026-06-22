@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { usePuestoStore } from '../stores/usePuestoStore';
+import { usePageFilters } from '../context/FilterContext';
 import { Modal } from '../components/ui/Modal';
 import type { Puesto } from '../stores/types';
 import './Empresas.css';
@@ -19,6 +20,16 @@ function formatCurrency(amount: number) {
 
 export function Puestos() {
   const { puestos, addPuesto, updatePuesto, deletePuesto } = usePuestoStore();
+  const { search } = usePageFilters();
+
+  const filteredPuestos = puestos.filter((puesto) => {
+    if (!search.trim()) return true;
+    const q = search.toLowerCase();
+    return (
+      puesto.nombre.toLowerCase().includes(q) ||
+      puesto.descripcion.toLowerCase().includes(q)
+    );
+  });
 
   const [showForm, setShowForm] = useState(false);
   const [editTarget, setEditTarget] = useState<Puesto | null>(null);
@@ -91,12 +102,14 @@ export function Puestos() {
             </tr>
           </thead>
           <tbody>
-            {puestos.length === 0 ? (
+            {filteredPuestos.length === 0 ? (
               <tr>
-                <td colSpan={4} className="table-empty">No hay puestos registrados.</td>
+                <td colSpan={4} className="table-empty">
+                  {search.trim() ? 'No se encontraron puestos.' : 'No hay puestos registrados.'}
+                </td>
               </tr>
             ) : (
-              puestos.map((puesto) => (
+              filteredPuestos.map((puesto) => (
                 <tr key={puesto.id}>
                   <td>{puesto.nombre}</td>
                   <td>{puesto.descripcion}</td>

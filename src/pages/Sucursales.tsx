@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useSucursalStore } from '../stores/useSucursalStore';
 import { useEmpresaStore } from '../stores/useEmpresaStore';
+import { usePageFilters } from '../context/FilterContext';
 import { Modal } from '../components/ui/Modal';
 import type { Sucursal } from '../stores/types';
 import './Empresas.css';
@@ -17,6 +18,19 @@ const EMPTY_FORM: SucursalFormData = { nombre: '', empresaId: '', ubicacion: '' 
 export function Sucursales() {
   const { sucursales, addSucursal, updateSucursal, deleteSucursal } = useSucursalStore();
   const { empresas } = useEmpresaStore();
+  const { search, filters } = usePageFilters();
+
+  const filteredSucursales = sucursales.filter((sucursal) => {
+    if (filters.empresaId && sucursal.empresaId !== filters.empresaId) return false;
+    if (!search.trim()) return true;
+    const q = search.toLowerCase();
+    const empresaNombre = empresas.find((e) => e.id === sucursal.empresaId)?.nombre ?? '';
+    return (
+      sucursal.nombre.toLowerCase().includes(q) ||
+      sucursal.ubicacion.toLowerCase().includes(q) ||
+      empresaNombre.toLowerCase().includes(q)
+    );
+  });
 
   const [showForm, setShowForm] = useState(false);
   const [editTarget, setEditTarget] = useState<Sucursal | null>(null);
@@ -86,12 +100,14 @@ export function Sucursales() {
             </tr>
           </thead>
           <tbody>
-            {sucursales.length === 0 ? (
+            {filteredSucursales.length === 0 ? (
               <tr>
-                <td colSpan={4} className="table-empty">No hay sucursales registradas.</td>
+                <td colSpan={4} className="table-empty">
+                  {search.trim() || filters.empresaId ? 'No se encontraron sucursales.' : 'No hay sucursales registradas.'}
+                </td>
               </tr>
             ) : (
-              sucursales.map((sucursal) => (
+              filteredSucursales.map((sucursal) => (
                 <tr key={sucursal.id}>
                   <td>{sucursal.nombre}</td>
                   <td>{empresaMap.get(sucursal.empresaId) ?? sucursal.empresaId}</td>

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useNominaStore } from '../stores/useNominaStore';
 import { useSucursalStore } from '../stores/useSucursalStore';
+import { usePageFilters } from '../context/FilterContext';
 import { Modal } from '../components/ui/Modal';
 import type { Nomina } from '../stores/types';
 import './Empresas.css';
@@ -23,6 +24,15 @@ export function CapturaNomina() {
   const navigate = useNavigate();
   const { nominas, addNomina, deleteNomina } = useNominaStore();
   const { sucursales } = useSucursalStore();
+  const { search, filters } = usePageFilters();
+
+  const filteredNominas = nominas.filter((nomina) => {
+    if (filters.sucursalId && nomina.sucursalId !== filters.sucursalId) return false;
+    if (!search.trim()) return true;
+    const q = search.toLowerCase();
+    const sucursalNombre = sucursales.find((s) => s.id === nomina.sucursalId)?.nombre ?? '';
+    return nomina.folio.toLowerCase().includes(q) || sucursalNombre.toLowerCase().includes(q);
+  });
 
   const [showForm, setShowForm] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState<Nomina | null>(null);
@@ -88,12 +98,14 @@ export function CapturaNomina() {
             </tr>
           </thead>
           <tbody>
-            {nominas.length === 0 ? (
+            {filteredNominas.length === 0 ? (
               <tr>
-                <td colSpan={5} className="table-empty">No hay nominas registradas.</td>
+                <td colSpan={5} className="table-empty">
+                  {search.trim() || filters.sucursalId ? 'No se encontraron nominas.' : 'No hay nominas registradas.'}
+                </td>
               </tr>
             ) : (
-              nominas.map((nomina) => (
+              filteredNominas.map((nomina) => (
                 <tr
                   key={nomina.id}
                   className="clickable-row"
