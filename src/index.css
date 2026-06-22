@@ -55,6 +55,30 @@
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
+[data-theme="dark"] {
+  --color-primary: #4A7C44;
+  --color-primary-light: #5E9A56;
+  --color-primary-dark: #2D6A27;
+  --color-secondary: #D4A373;
+  --color-secondary-light: #E5C9A8;
+  --color-tertiary: #5E9A56;
+  --color-neutral: #E8E8E8;
+  --color-neutral-700: #C0C0C0;
+  --color-neutral-500: #8A8C89;
+  --color-neutral-300: #4A4C49;
+  --color-neutral-100: #2A2C29;
+  --color-white: #1E201D;
+  --color-background: #151715;
+  --color-sidebar: #111311;
+  --color-success: #4A7C44;
+  --color-warning: #E6960A;
+  --color-danger: #EF5350;
+  --color-border: #333533;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+}
+
 /* ============================================================
    CSS Reset + Base Styles
    ============================================================ */

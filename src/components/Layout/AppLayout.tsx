@@ -15,6 +15,7 @@ const ROUTE_TITLES: Record<string, string> = {
   '/empleados': 'Empleados',
   '/puestos': 'Puestos',
   '/captura-nomina': 'Captura de Nómina',
+  '/configuracion': 'Configuración',
 };
 
 function getPageTitle(pathname: string): string {

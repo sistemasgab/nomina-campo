@@ -134,10 +134,10 @@ export function Sidebar() {
           + Nueva Nómina
         </button>
 
-        <a href="#settings" className="sidebar__bottom-link">
+        <NavLink to="/configuracion" className={({ isActive }) => `sidebar__bottom-link${isActive ? ' active' : ''}`}>
           <IconSettings />
           Configuración
-        </a>
+        </NavLink>
 
         <a href="#logout" className="sidebar__bottom-link sidebar__bottom-link--logout">
           <IconLogout />
