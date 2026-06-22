@@ -18,6 +18,18 @@ const ROUTE_TITLES: Record<string, string> = {
   '/configuracion': 'Configuración',
 };
 
+const ROUTES_WITH_FILTERBAR = new Set([
+  '/empresas',
+  '/sucursales',
+  '/empleados',
+  '/puestos',
+  '/captura-nomina',
+]);
+
+function routeHasFilterBar(pathname: string): boolean {
+  return ROUTES_WITH_FILTERBAR.has(pathname) || /^\/captura-nomina\/.+/.test(pathname);
+}
+
 function getPageTitle(pathname: string): string {
   return ROUTE_TITLES[pathname] ?? (/^\/captura-nomina\/.+/.test(pathname) ? 'Detalle de Nómina' : 'AgroPay Manager');
 }
@@ -162,13 +174,15 @@ export function AppLayout() {
           </div>
         </header>
 
-        <FilterBar
-          search={search}
-          onSearchChange={setSearch}
-          filters={filters}
-          onFilterChange={setFilter}
-          filterDefs={filterDefs}
-        />
+        {routeHasFilterBar(location.pathname) && (
+          <FilterBar
+            search={search}
+            onSearchChange={setSearch}
+            filters={filters}
+            onFilterChange={setFilter}
+            filterDefs={filterDefs}
+          />
+        )}
 
         <main className="app-layout__content">
           <Outlet context={outletContext} />
