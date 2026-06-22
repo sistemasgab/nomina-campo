@@ -33,13 +33,20 @@ export interface Empleado {
   createdAt: string;
 }
 
+export interface Nomina {
+  id: string;
+  folio: string;
+  sucursalId: string;
+  fecha: string;
+  createdAt: string;
+}
+
 export type NominaStatus = 'paid' | 'pending' | 'overdue';
 
 export interface NominaEntry {
   id: string;
+  nominaId: string;
   empleadoId: string;
-  sucursalId: string;
-  fecha: string;
   monto: number;
   status: NominaStatus;
   createdAt: string;

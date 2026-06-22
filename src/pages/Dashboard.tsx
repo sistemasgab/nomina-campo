@@ -42,11 +42,12 @@ export function Dashboard() {
   const navigate = useNavigate();
   const { empleados } = useEmpleadoStore();
   const { sucursales } = useSucursalStore();
-  const { entries } = useNominaStore();
+  const { nominas, entries } = useNominaStore();
 
   const recentEntries = entries.slice(0, 8);
   const empleadoMap = new Map(empleados.map((e) => [e.id, e]));
   const sucursalMap = new Map(sucursales.map((s) => [s.id, s]));
+  const nominaMap = new Map(nominas.map((n) => [n.id, n]));
 
   return (
     <div className="dashboard">
@@ -129,14 +130,15 @@ export function Dashboard() {
             ) : (
               recentEntries.map((entry) => {
                 const emp = empleadoMap.get(entry.empleadoId);
-                const suc = sucursalMap.get(entry.sucursalId);
+                const nomina = nominaMap.get(entry.nominaId);
+                const suc = nomina ? sucursalMap.get(nomina.sucursalId) : undefined;
                 const fullName = emp ? `${emp.nombre} ${emp.apellido}` : entry.empleadoId;
                 const initials = emp ? getInitials(emp.nombre, emp.apellido) : '??';
                 const avatarIdx = getAvatarIndex(entry.empleadoId);
 
                 return (
                   <tr key={entry.id}>
-                    <td>{suc?.nombre ?? entry.sucursalId}</td>
+                    <td>{suc?.nombre ?? '—'}</td>
                     <td>
                       <div className="employee-cell">
                         <div className={`avatar avatar--${avatarIdx}`}>{initials}</div>
@@ -145,7 +147,7 @@ export function Dashboard() {
                     </td>
                     <td>{formatCurrency(entry.monto)}</td>
                     <td><StatusBadge status={entry.status} /></td>
-                    <td>{new Date(entry.fecha).toLocaleDateString('es-MX')}</td>
+                    <td>{nomina ? new Date(nomina.fecha).toLocaleDateString('es-MX') : '—'}</td>
                   </tr>
                 );
               })
