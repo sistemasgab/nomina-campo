@@ -69,7 +69,7 @@ export function NominaDetalle() {
       <div className="page">
         <div className="page__header">
           <h2 className="page__title">Nomina no encontrada</h2>
-          <button className="btn-ghost" onClick={() => navigate('/captura-nomina')}>
+          <button className="btn-ghost" onClick={() => navigate('/nomina/captura')}>
             Volver
           </button>
         </div>
@@ -138,7 +138,7 @@ export function NominaDetalle() {
     <div className="page">
       <div className="page__header">
         <div>
-          <button className="btn-ghost" onClick={() => navigate('/captura-nomina')} style={{ marginBottom: '0.5rem' }}>
+          <button className="btn-ghost" onClick={() => navigate('/nomina/captura')} style={{ marginBottom: '0.5rem' }}>
             &larr; Volver a nominas
           </button>
           <h2 className="page__title">

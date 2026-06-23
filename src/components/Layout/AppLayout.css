@@ -25,6 +25,26 @@
   gap: var(--spacing-md);
 }
 
+.app-layout__title-group {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  min-width: 0;
+}
+
+.app-layout__module-label {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  background-color: rgba(45, 106, 39, 0.08);
+  padding: 2px var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
 .app-layout__page-title {
   font-size: var(--font-size-lg);
   font-weight: 600;

@@ -1,6 +1,17 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { Bell, Question } from '@phosphor-icons/react';
+
+const MODULE_NAMES: Record<string, string> = {
+  general: 'General',
+  nomina: 'Nomina de Campo',
+  preparaciones: 'Preparaciones Agricolas',
+};
+
+function getModuleName(pathname: string): string | null {
+  const segment = pathname.split('/')[1];
+  return MODULE_NAMES[segment] ?? null;
+}
 import { useEmpresaStore } from '../../stores/useEmpresaStore';
 import { useSucursalStore } from '../../stores/useSucursalStore';
 import { usePuestoStore } from '../../stores/usePuestoStore';
@@ -10,31 +21,32 @@ import { Sidebar } from './Sidebar';
 import './AppLayout.css';
 
 const ROUTE_TITLES: Record<string, string> = {
-  '/': 'Dashboard',
-  '/empresas': 'Empresas',
-  '/sucursales': 'Sucursales',
-  '/empleados': 'Empleados',
-  '/puestos': 'Puestos',
-  '/encargados': 'Encargados',
-  '/captura-nomina': 'Captura de Nómina',
-  '/configuracion': 'Configuración',
+  '/general/empresas': 'Empresas',
+  '/general/sucursales': 'Sucursales',
+  '/nomina': 'Dashboard',
+  '/nomina/empleados': 'Empleados',
+  '/nomina/puestos': 'Puestos',
+  '/nomina/encargados': 'Encargados',
+  '/nomina/captura': 'Captura de Nomina',
+  '/preparaciones': 'Preparaciones Agricolas',
+  '/configuracion': 'Configuracion',
 };
 
 const ROUTES_WITH_FILTERBAR = new Set([
-  '/empresas',
-  '/sucursales',
-  '/empleados',
-  '/puestos',
-  '/encargados',
-  '/captura-nomina',
+  '/general/empresas',
+  '/general/sucursales',
+  '/nomina/empleados',
+  '/nomina/puestos',
+  '/nomina/encargados',
+  '/nomina/captura',
 ]);
 
 function routeHasFilterBar(pathname: string): boolean {
-  return ROUTES_WITH_FILTERBAR.has(pathname) || /^\/captura-nomina\/.+/.test(pathname);
+  return ROUTES_WITH_FILTERBAR.has(pathname) || /^\/nomina\/captura\/.+/.test(pathname);
 }
 
 function getPageTitle(pathname: string): string {
-  return ROUTE_TITLES[pathname] ?? (/^\/captura-nomina\/.+/.test(pathname) ? 'Detalle de Nómina' : 'AgroPay Manager');
+  return ROUTE_TITLES[pathname] ?? (/^\/nomina\/captura\/.+/.test(pathname) ? 'Detalle de Nomina' : 'AgroPay Manager');
 }
 
 function useFilterDefs(pathname: string): FilterDef[] {
@@ -44,7 +56,7 @@ function useFilterDefs(pathname: string): FilterDef[] {
 
   return useMemo(() => {
     switch (pathname) {
-      case '/sucursales':
+      case '/general/sucursales':
         return [{
           id: 'empresaId',
           label: 'Empresa',
@@ -53,7 +65,7 @@ function useFilterDefs(pathname: string): FilterDef[] {
             ...empresas.map((e) => ({ value: e.id, label: e.nombre })),
           ],
         }];
-      case '/empleados':
+      case '/nomina/empleados':
         return [
           {
             id: 'estado',
@@ -81,7 +93,7 @@ function useFilterDefs(pathname: string): FilterDef[] {
             ],
           },
         ];
-      case '/encargados':
+      case '/nomina/encargados':
         return [{
           id: 'estado',
           label: 'Estado',
@@ -91,7 +103,7 @@ function useFilterDefs(pathname: string): FilterDef[] {
             { value: 'inactivo', label: 'Inactivo' },
           ],
         }];
-      case '/captura-nomina':
+      case '/nomina/captura':
         return [{
           id: 'sucursalId',
           label: 'Sucursal',
@@ -101,7 +113,7 @@ function useFilterDefs(pathname: string): FilterDef[] {
           ],
         }];
       default:
-        if (/^\/captura-nomina\/.+/.test(pathname)) {
+        if (/^\/nomina\/captura\/.+/.test(pathname)) {
           return [{
             id: 'status',
             label: 'Estatus',
@@ -121,6 +133,7 @@ function useFilterDefs(pathname: string): FilterDef[] {
 export function AppLayout() {
   const location = useLocation();
   const pageTitle = getPageTitle(location.pathname);
+  const moduleName = getModuleName(location.pathname);
   const filterDefs = useFilterDefs(location.pathname);
 
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -154,7 +167,10 @@ export function AppLayout() {
       <Sidebar collapsed={sidebarCollapsed} onToggle={() => setSidebarCollapsed((c) => !c)} />
       <div className="app-layout__main">
         <header className="app-layout__header">
-          <h1 className="app-layout__page-title">{pageTitle}</h1>
+          <div className="app-layout__title-group">
+            {moduleName && <span className="app-layout__module-label">{moduleName}</span>}
+            <h1 className="app-layout__page-title">{pageTitle}</h1>
+          </div>
 
           <div className="app-layout__header-actions">
             <button className="app-layout__icon-btn" aria-label="Notificaciones">

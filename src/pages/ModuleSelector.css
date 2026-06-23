@@ -1,0 +1,180 @@
+/* ============================================================
+   ModuleSelector — Landing / Home Screen
+   ============================================================ */
+
+.module-selector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+  padding: var(--spacing-3xl) var(--spacing-xl);
+  gap: var(--spacing-3xl);
+}
+
+/* Header */
+
+.module-selector__header {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.module-selector__title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-neutral);
+  letter-spacing: -0.02em;
+}
+
+.module-selector__subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--color-neutral-500);
+}
+
+/* Card grid */
+
+.module-selector__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-lg);
+  width: 100%;
+  max-width: 900px;
+}
+
+/* Card */
+
+.module-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  background-color: var(--color-white);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border);
+  cursor: pointer;
+  transition:
+    box-shadow 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+  position: relative;
+  outline-offset: 2px;
+}
+
+.module-card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+}
+
+.module-card:focus-visible {
+  outline: 2px solid var(--color-primary);
+}
+
+.module-card--disabled {
+  cursor: default;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Icon circle */
+
+.module-card__icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-md);
+  flex-shrink: 0;
+}
+
+.module-card__icon-wrapper--general {
+  background-color: rgba(106, 108, 105, 0.1);
+  color: var(--color-neutral-500);
+}
+
+.module-card__icon-wrapper--nomina {
+  background-color: rgba(45, 106, 39, 0.1);
+  color: var(--color-primary);
+}
+
+.module-card__icon-wrapper--preparaciones {
+  background-color: rgba(212, 163, 115, 0.1);
+  color: var(--color-secondary);
+}
+
+/* Card body */
+
+.module-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  flex: 1;
+}
+
+.module-card__name-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+.module-card__name {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-neutral);
+  line-height: 1.3;
+}
+
+.module-card__description {
+  font-size: var(--font-size-sm);
+  color: var(--color-neutral-500);
+  line-height: 1.5;
+}
+
+/* Arrow indicator */
+
+.module-card__arrow {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  color: var(--color-neutral-300);
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.module-card:hover .module-card__arrow {
+  color: var(--color-primary);
+  transform: translateX(3px);
+}
+
+/* "Proximamente" badge */
+
+.module-card__badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px var(--spacing-sm);
+  background-color: var(--color-neutral-100);
+  color: var(--color-neutral-500);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border);
+  white-space: nowrap;
+}
+
+/* Responsive */
+
+@media (max-width: 768px) {
+  .module-selector__grid {
+    grid-template-columns: 1fr;
+    max-width: 440px;
+  }
+
+  .module-selector {
+    justify-content: flex-start;
+    padding-top: var(--spacing-2xl);
+  }
+}

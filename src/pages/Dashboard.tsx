@@ -105,7 +105,7 @@ export function Dashboard() {
       <div className="dashboard__section">
         <div className="dashboard__section-header">
           <h3 className="dashboard__section-title">Capturas Recientes de Nómina</h3>
-          <Link to="/captura-nomina" className="dashboard__view-all">Ver todas →</Link>
+          <Link to="/nomina/captura" className="dashboard__view-all">Ver todas →</Link>
         </div>
 
         <table className="data-table">

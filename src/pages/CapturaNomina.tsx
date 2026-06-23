@@ -62,7 +62,7 @@ export function CapturaNomina() {
       fechaFin: form.fechaFin,
     });
     closeForm();
-    navigate(`/captura-nomina/${id}`);
+    navigate(`/nomina/captura/${id}`);
   }
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
@@ -109,7 +109,7 @@ export function CapturaNomina() {
                 <tr
                   key={nomina.id}
                   className="clickable-row"
-                  onClick={() => navigate(`/captura-nomina/${nomina.id}`)}
+                  onClick={() => navigate(`/nomina/captura/${nomina.id}`)}
                 >
                   <td><strong>{nomina.folio}</strong></td>
                   <td>{sucursalMap.get(nomina.sucursalId) ?? nomina.sucursalId}</td>
@@ -121,7 +121,7 @@ export function CapturaNomina() {
                         className="btn-ghost"
                         onClick={(e) => {
                           e.stopPropagation();
-                          navigate(`/captura-nomina/${nomina.id}`);
+                          navigate(`/nomina/captura/${nomina.id}`);
                         }}
                       >
                         Ver detalle

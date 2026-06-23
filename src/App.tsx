@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AppLayout } from './components/Layout/AppLayout';
+import { ModuleSelector } from './pages/ModuleSelector';
 import { Dashboard } from './pages/Dashboard';
 import { Empresas } from './pages/Empresas';
 import { Sucursales } from './pages/Sucursales';
@@ -10,6 +11,7 @@ import { CapturaNomina } from './pages/CapturaNomina';
 import { NominaDetalle } from './pages/NominaDetalle';
 import { Encargados } from './pages/Encargados';
 import { Configuracion } from './pages/Configuracion';
+import { PreparacionesHome } from './pages/PreparacionesHome';
 import { useThemeStore } from './stores/useThemeStore';
 
 export default function App() {
@@ -22,15 +24,21 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route index element={<ModuleSelector />} />
         <Route element={<AppLayout />}>
-          <Route index element={<Dashboard />} />
-          <Route path="empresas" element={<Empresas />} />
-          <Route path="sucursales" element={<Sucursales />} />
-          <Route path="empleados" element={<Empleados />} />
-          <Route path="puestos" element={<Puestos />} />
-          <Route path="encargados" element={<Encargados />} />
-          <Route path="captura-nomina" element={<CapturaNomina />} />
-          <Route path="captura-nomina/:nominaId" element={<NominaDetalle />} />
+          {/* General */}
+          <Route path="general/empresas" element={<Empresas />} />
+          <Route path="general/sucursales" element={<Sucursales />} />
+          {/* Nomina */}
+          <Route path="nomina" element={<Dashboard />} />
+          <Route path="nomina/empleados" element={<Empleados />} />
+          <Route path="nomina/puestos" element={<Puestos />} />
+          <Route path="nomina/encargados" element={<Encargados />} />
+          <Route path="nomina/captura" element={<CapturaNomina />} />
+          <Route path="nomina/captura/:nominaId" element={<NominaDetalle />} />
+          {/* Preparaciones */}
+          <Route path="preparaciones" element={<PreparacionesHome />} />
+          {/* Global */}
           <Route path="configuracion" element={<Configuracion />} />
         </Route>
       </Routes>

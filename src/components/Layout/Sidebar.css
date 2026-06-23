@@ -101,6 +101,15 @@
   white-space: nowrap;
 }
 
+.sidebar__back-link {
+  color: var(--color-sidebar-text-muted);
+  border: none;
+  background: none;
+  cursor: pointer;
+  font: inherit;
+  margin-bottom: var(--spacing-xs);
+}
+
 .sidebar--collapsed .sidebar__link {
   justify-content: center;
   padding: var(--spacing-sm);

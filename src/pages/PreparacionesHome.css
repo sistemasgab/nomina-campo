@@ -1,0 +1,38 @@
+.preparaciones-home {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+}
+
+.preparaciones-home__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
+  text-align: center;
+  max-width: 400px;
+}
+
+.preparaciones-home__icon {
+  width: 80px;
+  height: 80px;
+  border-radius: var(--radius-full);
+  background-color: rgba(212, 163, 115, 0.1);
+  color: var(--color-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.preparaciones-home__title {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  color: var(--color-neutral);
+}
+
+.preparaciones-home__text {
+  font-size: var(--font-size-sm);
+  color: var(--color-neutral-500);
+  line-height: 1.6;
+}
