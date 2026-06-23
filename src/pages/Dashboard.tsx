@@ -1,4 +1,5 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { UsersThree, MapPin, CalendarBlank, Export, ClipboardText } from '@phosphor-icons/react';
 import { useEmpleadoStore } from '../stores/useEmpleadoStore';
 import { useSucursalStore } from '../stores/useSucursalStore';
 import { useNominaStore } from '../stores/useNominaStore';
@@ -20,27 +21,7 @@ function formatCurrency(amount: number) {
   return new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(amount);
 }
 
-function IconPeople() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-      <circle cx="9" cy="7" r="4" />
-      <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
-    </svg>
-  );
-}
-
-function IconLocation() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-      <circle cx="12" cy="10" r="3" />
-    </svg>
-  );
-}
-
 export function Dashboard() {
-  const navigate = useNavigate();
   const { empleados } = useEmpleadoStore();
   const { sucursales } = useSucursalStore();
   const { nominas, entries } = useNominaStore();
@@ -73,10 +54,12 @@ export function Dashboard() {
         </div>
         <div className="dashboard__header-right">
           <div className="dashboard__date-range">
-            📅 01 May — 31 May 2024
+            <CalendarBlank size={16} />
+            01 May — 31 May 2024
           </div>
           <button className="dashboard__export-btn">
-            ↓ Exportar PDF
+            <Export size={16} />
+            Exportar PDF
           </button>
         </div>
       </div>
@@ -85,18 +68,18 @@ export function Dashboard() {
         <div className="stat-card">
           <div className="stat-card__header">
             <span className="stat-card__label">Total Empleados</span>
-            <div className="stat-card__icon"><IconPeople /></div>
+            <div className="stat-card__icon"><UsersThree size={20} /></div>
           </div>
-          <div className="stat-card__value">{empleados.length}</div>
+          <div className="stat-card__value tabular-nums">{empleados.length}</div>
           <div className="stat-card__sub">+12 desde el mes pasado</div>
         </div>
 
         <div className="stat-card">
           <div className="stat-card__header">
             <span className="stat-card__label">Sucursales Activas</span>
-            <div className="stat-card__icon"><IconLocation /></div>
+            <div className="stat-card__icon"><MapPin size={20} /></div>
           </div>
-          <div className="stat-card__value">{sucursales.length}</div>
+          <div className="stat-card__value tabular-nums">{sucursales.length}</div>
           <div className="stat-card__sub">En 3 regiones</div>
         </div>
 
@@ -138,8 +121,13 @@ export function Dashboard() {
           <tbody>
             {recentEntries.length === 0 ? (
               <tr>
-                <td colSpan={5} style={{ textAlign: 'center', color: 'var(--color-neutral-500)', padding: 'var(--spacing-xl)' }}>
-                  Sin capturas recientes
+                <td colSpan={5}>
+                  <div className="dashboard__empty-state">
+                    <div className="dashboard__empty-state-icon">
+                      <ClipboardText size={24} />
+                    </div>
+                    <span className="dashboard__empty-state-text">Sin capturas recientes</span>
+                  </div>
                 </td>
               </tr>
             ) : (
@@ -170,14 +158,6 @@ export function Dashboard() {
           </tbody>
         </table>
       </div>
-
-      <button
-        className="dashboard__fab"
-        aria-label="Nueva captura de nómina"
-        onClick={() => navigate('/captura-nomina')}
-      >
-        +
-      </button>
     </div>
   );
 }

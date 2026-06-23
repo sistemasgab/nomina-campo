@@ -31,6 +31,10 @@
   --font-size-xl: 1.25rem;
   --font-size-2xl: 1.5rem;
   --font-size-3xl: 2rem;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
 
   /* Spacing */
   --spacing-xs: 0.25rem;   /* 4px */
@@ -60,10 +64,17 @@
   --color-sidebar-logout: rgba(198, 40, 40, 0.8);
   --color-sidebar-logout-hover: #C62828;
 
-  /* Shadows */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  /* Shadows — green-tinted to match brand hue */
+  --shadow-sm: 0 1px 3px rgba(45, 106, 39, 0.06), 0 1px 2px rgba(45, 106, 39, 0.04);
+  --shadow-md: 0 4px 8px -2px rgba(45, 106, 39, 0.08), 0 2px 4px -2px rgba(45, 106, 39, 0.04);
+  --shadow-lg: 0 12px 24px -4px rgba(45, 106, 39, 0.12), 0 4px 8px -2px rgba(45, 106, 39, 0.06);
+
+  /* Z-index scale */
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-overlay: 300;
+  --z-modal: 400;
+  --z-toast: 500;
 }
 
 [data-theme="dark"] {
@@ -95,9 +106,9 @@
   --color-sidebar-bottom-link: rgba(255, 255, 255, 0.55);
   --color-sidebar-logout: rgba(198, 40, 40, 0.8);
   --color-sidebar-logout-hover: #EF5350;
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+  --shadow-sm: 0 1px 3px rgba(10, 30, 10, 0.25), 0 1px 2px rgba(10, 30, 10, 0.18);
+  --shadow-md: 0 4px 8px -2px rgba(10, 30, 10, 0.35), 0 2px 4px -2px rgba(10, 30, 10, 0.25);
+  --shadow-lg: 0 12px 24px -4px rgba(10, 30, 10, 0.45), 0 4px 8px -2px rgba(10, 30, 10, 0.28);
 }
 
 /* ============================================================
@@ -115,6 +126,7 @@
 html {
   font-size: 16px;
   -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -155,4 +167,36 @@ h6 {
 
 #root {
   isolation: isolate;
+}
+
+/* ============================================================
+   Global Interactive States
+   ============================================================ */
+
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+button,
+[role="button"],
+a {
+  transition: transform 0.1s ease;
+}
+
+button:active:not(:disabled),
+[role="button"]:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+/* ============================================================
+   Utility Classes
+   ============================================================ */
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+.transition-colors {
+  transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
 }

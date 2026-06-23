@@ -1,7 +1,7 @@
 .sidebar {
   width: 240px;
   min-width: 240px;
-  height: 100vh;
+  height: 100dvh;
   background-color: var(--color-sidebar-bg);
   border-right: 1px solid var(--color-sidebar-border);
   display: flex;
@@ -10,7 +10,7 @@
   top: 0;
   overflow-y: auto;
   overflow-x: hidden;
-  transition: width 0.2s, min-width 0.2s, background-color 0.2s, border-color 0.2s;
+  transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1), min-width 0.25s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.2s, border-color 0.2s;
 }
 
 .sidebar--collapsed {
@@ -95,7 +95,7 @@
   text-decoration: none;
   font-size: var(--font-size-sm);
   font-weight: 500;
-  transition: background-color 0.15s, color 0.15s;
+  transition: background-color 0.15s ease, color 0.15s ease, transform 0.1s ease;
   margin: 1px var(--spacing-sm);
   border-radius: var(--radius-md);
   white-space: nowrap;
@@ -112,8 +112,9 @@
 }
 
 .sidebar__link.active {
-  background-color: var(--color-primary);
-  color: #FFFFFF;
+  background-color: rgba(45, 106, 39, 0.12);
+  color: var(--color-primary);
+  font-weight: 600;
 }
 
 .sidebar__link-icon {
@@ -147,12 +148,14 @@
   font-size: var(--font-size-sm);
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.15s;
+  transition: background-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
   width: 100%;
 }
 
 .sidebar__new-payroll:hover {
   background-color: var(--color-primary-light);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
 }
 
 .sidebar__bottom-link {

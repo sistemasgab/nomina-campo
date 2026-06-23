@@ -110,7 +110,6 @@ export function CapturaNomina() {
                   key={nomina.id}
                   className="clickable-row"
                   onClick={() => navigate(`/captura-nomina/${nomina.id}`)}
-                  style={{ cursor: 'pointer' }}
                 >
                   <td><strong>{nomina.folio}</strong></td>
                   <td>{sucursalMap.get(nomina.sucursalId) ?? nomina.sucursalId}</td>

@@ -32,6 +32,11 @@
   background-color: var(--color-primary-light);
 }
 
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .btn-danger {
   display: inline-flex;
   align-items: center;
@@ -105,6 +110,10 @@
 
 .data-table tr:last-child td {
   border-bottom: none;
+}
+
+.data-table tr td {
+  transition: background-color 0.15s ease;
 }
 
 .data-table tr:hover td {
@@ -197,6 +206,7 @@
 .confirm-body p {
   font-size: var(--font-size-sm);
   color: var(--color-neutral-700);
+  line-height: 1.6;
 }
 
 .confirm-actions {

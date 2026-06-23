@@ -1,6 +1,6 @@
 .app-layout {
   display: flex;
-  height: 100vh;
+  height: 100dvh;
   overflow: hidden;
 }
 
@@ -16,7 +16,8 @@
   height: 64px;
   min-height: 64px;
   background-color: var(--color-white);
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: none;
+  box-shadow: 0 1px 0 var(--color-border);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -48,12 +49,13 @@
   cursor: pointer;
   border-radius: var(--radius-full);
   color: var(--color-neutral-500);
-  transition: background-color 0.15s, color 0.15s;
+  transition: background-color 0.15s, color 0.15s, transform 0.15s;
 }
 
 .app-layout__icon-btn:hover {
   background-color: var(--color-neutral-100);
   color: var(--color-neutral);
+  transform: scale(1.05);
 }
 
 .app-layout__avatar {
@@ -69,6 +71,12 @@
   font-weight: 700;
   cursor: pointer;
   flex-shrink: 0;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.app-layout__avatar:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 0 2px var(--color-background), 0 0 0 4px var(--color-primary);
 }
 
 /* ---- Content ---- */

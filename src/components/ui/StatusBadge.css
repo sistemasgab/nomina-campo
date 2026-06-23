@@ -1,25 +1,42 @@
 .status-badge {
   display: inline-flex;
   align-items: center;
-  padding: 2px var(--spacing-sm);
+  gap: 6px;
+  padding: 3px var(--spacing-sm);
   border-radius: var(--radius-full);
   font-size: var(--font-size-xs);
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.02em;
+}
+
+.status-badge::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
 }
 
 .status-badge--paid {
-  background-color: rgba(45, 106, 39, 0.12);
+  background-color: rgba(45, 106, 39, 0.1);
   color: var(--color-success);
+}
+.status-badge--paid::before {
+  background-color: var(--color-success);
 }
 
 .status-badge--pending {
-  background-color: rgba(230, 150, 10, 0.12);
+  background-color: rgba(230, 150, 10, 0.1);
   color: var(--color-warning);
+}
+.status-badge--pending::before {
+  background-color: var(--color-warning);
 }
 
 .status-badge--overdue {
-  background-color: rgba(198, 40, 40, 0.12);
+  background-color: rgba(198, 40, 40, 0.1);
   color: var(--color-danger);
+}
+.status-badge--overdue::before {
+  background-color: var(--color-danger);
 }
