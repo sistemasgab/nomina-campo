@@ -129,6 +129,7 @@ export function AppLayout() {
   const pageTitle = getPageTitle(location.pathname);
   const filterDefs = useFilterDefs(location.pathname);
 
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [search, setSearch] = useState('');
   const [filters, setFilters] = useState<Record<string, string>>({});
 
@@ -156,7 +157,7 @@ export function AppLayout() {
 
   return (
     <div className="app-layout">
-      <Sidebar />
+      <Sidebar collapsed={sidebarCollapsed} onToggle={() => setSidebarCollapsed((c) => !c)} />
       <div className="app-layout__main">
         <header className="app-layout__header">
           <h1 className="app-layout__page-title">{pageTitle}</h1>

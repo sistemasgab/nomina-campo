@@ -1,6 +1,27 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import './Sidebar.css';
 
+function IconChevronLeft() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="15 18 9 12 15 6" />
+    </svg>
+  );
+}
+
+function IconChevronRight() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="9 18 15 12 9 6" />
+    </svg>
+  );
+}
+
+interface SidebarProps {
+  collapsed: boolean;
+  onToggle: () => void;
+}
+
 function IconHouse() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -80,68 +101,78 @@ function IconLogout() {
   );
 }
 
-export function Sidebar() {
+export function Sidebar({ collapsed, onToggle }: SidebarProps) {
   const navigate = useNavigate();
 
   return (
-    <aside className="sidebar">
+    <aside className={`sidebar${collapsed ? ' sidebar--collapsed' : ''}`}>
       <div className="sidebar__logo">
-        <div className="sidebar__logo-title">AgroPay Manager</div>
-        <div className="sidebar__logo-subtitle">Admin Console</div>
+        {!collapsed && (
+          <div className="sidebar__logo-title">AgroPay Manager</div>
+        )}
+        <button
+          className="sidebar__toggle"
+          onClick={onToggle}
+          aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+        >
+          {collapsed ? <IconChevronRight /> : <IconChevronLeft />}
+        </button>
       </div>
 
       <nav className="sidebar__nav" aria-label="Navegación principal">
-        <NavLink to="/" end className={({ isActive }) => `sidebar__link${isActive ? ' active' : ''}`}>
+        <NavLink to="/" end className={({ isActive }) => `sidebar__link${isActive ? ' active' : ''}`} title="Dashboard">
           <span className="sidebar__link-icon"><IconHouse /></span>
-          Dashboard
+          {!collapsed && <span>Dashboard</span>}
         </NavLink>
 
-        <span className="sidebar__section-label">Catálogos</span>
+        {!collapsed && <span className="sidebar__section-label">Catálogos</span>}
 
-        <NavLink to="/empresas" className={({ isActive }) => `sidebar__link${isActive ? ' active' : ''}`}>
+        <NavLink to="/empresas" className={({ isActive }) => `sidebar__link${isActive ? ' active' : ''}`} title="Empresas">
           <span className="sidebar__link-icon"><IconBuilding /></span>
-          Empresas
+          {!collapsed && <span>Empresas</span>}
         </NavLink>
 
-        <NavLink to="/sucursales" className={({ isActive }) => `sidebar__link${isActive ? ' active' : ''}`}>
+        <NavLink to="/sucursales" className={({ isActive }) => `sidebar__link${isActive ? ' active' : ''}`} title="Sucursales">
           <span className="sidebar__link-icon"><IconMapPin /></span>
-          Sucursales
+          {!collapsed && <span>Sucursales</span>}
         </NavLink>
 
-        <NavLink to="/empleados" className={({ isActive }) => `sidebar__link${isActive ? ' active' : ''}`}>
+        <NavLink to="/empleados" className={({ isActive }) => `sidebar__link${isActive ? ' active' : ''}`} title="Empleados">
           <span className="sidebar__link-icon"><IconUsers /></span>
-          Empleados
+          {!collapsed && <span>Empleados</span>}
         </NavLink>
 
-        <NavLink to="/puestos" className={({ isActive }) => `sidebar__link${isActive ? ' active' : ''}`}>
+        <NavLink to="/puestos" className={({ isActive }) => `sidebar__link${isActive ? ' active' : ''}`} title="Puestos">
           <span className="sidebar__link-icon"><IconBriefcase /></span>
-          Puestos
+          {!collapsed && <span>Puestos</span>}
         </NavLink>
 
-        <span className="sidebar__section-label">Operaciones</span>
+        {!collapsed && <span className="sidebar__section-label">Operaciones</span>}
 
-        <NavLink to="/captura-nomina" className={({ isActive }) => `sidebar__link${isActive ? ' active' : ''}`}>
+        <NavLink to="/captura-nomina" className={({ isActive }) => `sidebar__link${isActive ? ' active' : ''}`} title="Captura de Nómina">
           <span className="sidebar__link-icon"><IconClipboard /></span>
-          Captura de Nómina
+          {!collapsed && <span>Captura de Nómina</span>}
         </NavLink>
       </nav>
 
       <div className="sidebar__bottom">
-        <button
-          className="sidebar__new-payroll"
-          onClick={() => navigate('/captura-nomina')}
-        >
-          + Nueva Nómina
-        </button>
+        {!collapsed && (
+          <button
+            className="sidebar__new-payroll"
+            onClick={() => navigate('/captura-nomina')}
+          >
+            + Nueva Nómina
+          </button>
+        )}
 
-        <NavLink to="/configuracion" className={({ isActive }) => `sidebar__bottom-link${isActive ? ' active' : ''}`}>
+        <NavLink to="/configuracion" className={({ isActive }) => `sidebar__bottom-link${isActive ? ' active' : ''}`} title="Configuración">
           <IconSettings />
-          Configuración
+          {!collapsed && <span>Configuración</span>}
         </NavLink>
 
-        <a href="#logout" className="sidebar__bottom-link sidebar__bottom-link--logout">
+        <a href="#logout" className="sidebar__bottom-link sidebar__bottom-link--logout" title="Cerrar sesión">
           <IconLogout />
-          Cerrar sesión
+          {!collapsed && <span>Cerrar sesión</span>}
         </a>
       </div>
     </aside>
