@@ -8,6 +8,7 @@ import { Empleados } from './pages/Empleados';
 import { Puestos } from './pages/Puestos';
 import { CapturaNomina } from './pages/CapturaNomina';
 import { NominaDetalle } from './pages/NominaDetalle';
+import { Encargados } from './pages/Encargados';
 import { Configuracion } from './pages/Configuracion';
 import { useThemeStore } from './stores/useThemeStore';
 
@@ -27,6 +28,7 @@ export default function App() {
           <Route path="sucursales" element={<Sucursales />} />
           <Route path="empleados" element={<Empleados />} />
           <Route path="puestos" element={<Puestos />} />
+          <Route path="encargados" element={<Encargados />} />
           <Route path="captura-nomina" element={<CapturaNomina />} />
           <Route path="captura-nomina/:nominaId" element={<NominaDetalle />} />
           <Route path="configuracion" element={<Configuracion />} />

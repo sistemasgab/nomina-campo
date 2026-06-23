@@ -33,6 +33,13 @@ export interface Empleado {
   createdAt: string;
 }
 
+export interface Encargado {
+  id: string;
+  nombre: string;
+  activo: boolean;
+  createdAt: string;
+}
+
 export interface Nomina {
   id: string;
   folio: string;

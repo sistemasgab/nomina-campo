@@ -14,6 +14,7 @@ const ROUTE_TITLES: Record<string, string> = {
   '/sucursales': 'Sucursales',
   '/empleados': 'Empleados',
   '/puestos': 'Puestos',
+  '/encargados': 'Encargados',
   '/captura-nomina': 'Captura de Nómina',
   '/configuracion': 'Configuración',
 };
@@ -23,6 +24,7 @@ const ROUTES_WITH_FILTERBAR = new Set([
   '/sucursales',
   '/empleados',
   '/puestos',
+  '/encargados',
   '/captura-nomina',
 ]);
 
@@ -97,6 +99,16 @@ function useFilterDefs(pathname: string): FilterDef[] {
             ],
           },
         ];
+      case '/encargados':
+        return [{
+          id: 'estado',
+          label: 'Estado',
+          options: [
+            { value: '', label: 'Todos' },
+            { value: 'activo', label: 'Activo' },
+            { value: 'inactivo', label: 'Inactivo' },
+          ],
+        }];
       case '/captura-nomina':
         return [{
           id: 'sucursalId',

@@ -70,6 +70,16 @@ function IconBriefcase() {
   );
 }
 
+function IconUserCheck() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+      <circle cx="8.5" cy="7" r="4" />
+      <polyline points="17 11 19 13 23 9" />
+    </svg>
+  );
+}
+
 function IconClipboard() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -108,7 +118,7 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
     <aside className={`sidebar${collapsed ? ' sidebar--collapsed' : ''}`}>
       <div className="sidebar__logo">
         {!collapsed && (
-          <div className="sidebar__logo-title">AgroPay Manager</div>
+          <div className="sidebar__logo-title">Nómina de Campo</div>
         )}
         <button
           className="sidebar__toggle"
@@ -145,6 +155,11 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
         <NavLink to="/puestos" className={({ isActive }) => `sidebar__link${isActive ? ' active' : ''}`} title="Puestos">
           <span className="sidebar__link-icon"><IconBriefcase /></span>
           {!collapsed && <span>Puestos</span>}
+        </NavLink>
+
+        <NavLink to="/encargados" className={({ isActive }) => `sidebar__link${isActive ? ' active' : ''}`} title="Encargados">
+          <span className="sidebar__link-icon"><IconUserCheck /></span>
+          {!collapsed && <span>Encargados</span>}
         </NavLink>
 
         {!collapsed && <span className="sidebar__section-label">Operaciones</span>}
