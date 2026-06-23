@@ -2,16 +2,6 @@ import { useEffect, useMemo, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { Bell, Question } from '@phosphor-icons/react';
 
-const MODULE_NAMES: Record<string, string> = {
-  general: 'General',
-  nomina: 'Nomina de Campo',
-  preparaciones: 'Preparaciones Agricolas',
-};
-
-function getModuleName(pathname: string): string | null {
-  const segment = pathname.split('/')[1];
-  return MODULE_NAMES[segment] ?? null;
-}
 import { useEmpresaStore } from '../../stores/useEmpresaStore';
 import { useSucursalStore } from '../../stores/useSucursalStore';
 import { usePuestoStore } from '../../stores/usePuestoStore';
@@ -133,7 +123,6 @@ function useFilterDefs(pathname: string): FilterDef[] {
 export function AppLayout() {
   const location = useLocation();
   const pageTitle = getPageTitle(location.pathname);
-  const moduleName = getModuleName(location.pathname);
   const filterDefs = useFilterDefs(location.pathname);
 
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -167,10 +156,7 @@ export function AppLayout() {
       <Sidebar collapsed={sidebarCollapsed} onToggle={() => setSidebarCollapsed((c) => !c)} />
       <div className="app-layout__main">
         <header className="app-layout__header">
-          <div className="app-layout__title-group">
-            {moduleName && <span className="app-layout__module-label">{moduleName}</span>}
-            <h1 className="app-layout__page-title">{pageTitle}</h1>
-          </div>
+          <h1 className="app-layout__page-title">{pageTitle}</h1>
 
           <div className="app-layout__header-actions">
             <button className="app-layout__icon-btn" aria-label="Notificaciones">
